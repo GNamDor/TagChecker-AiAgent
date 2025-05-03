@@ -68,16 +68,16 @@ messages = [
 
 def main_loop():
 
-    print("\nPlease Enter a prompt or type quit to exit\n")
+    print("\nPlease Enter a prompt or type quit to exit")
     while True:
-        query = input("Enter Prompt: ")
+        query = input("\nEnter Prompt: ")
 
         if query.lower() == "quit":
             print("Exiting...")
             return 
 
         if custom_tool(query):
-            print("running tag checker")
+            print("running tag checker\n")
             TG.main()
         else:
             input_messages = [HumanMessage(query)]
