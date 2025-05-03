@@ -9,7 +9,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage, trim_messages
 import TagChecker.TagChecker as TG
 
-# Add memory
 memory = MemorySaver()
 tokenizer = transformers.AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
 hf_model =transformers.AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct",  torch_dtype="auto", device_map="auto")
@@ -17,7 +16,6 @@ pipeline = transformers.pipeline( "text-generation", model = hf_model, tokenizer
                                     do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id)
 
 model = HuggingFacePipeline(pipeline=pipeline)
-
 
 trimmer = trim_messages(
     max_tokens=5000,
@@ -51,7 +49,6 @@ def custom_tool(text):
         if text.find("run") or text.find("start"):
             return True
     return False
-
 
 # Define the (single) node in the graph
 workflow.add_edge(START, "model")
