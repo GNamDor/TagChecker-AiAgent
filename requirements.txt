@@ -1,0 +1,9 @@
+transformers
+langchain
+langgraph
+torch
+einops
+accelerate
+protobuf
+langchain-huggingface
+djangorestframework

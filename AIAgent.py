@@ -7,13 +7,14 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, MessagesState, StateGraph
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage, trim_messages
+import TagChecker.TagChecker as TG
 
 # Add memory
 memory = MemorySaver()
 tokenizer = transformers.AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
 hf_model =transformers.AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct",  torch_dtype="auto", device_map="auto")
 pipeline = transformers.pipeline( "text-generation", model = hf_model, tokenizer = tokenizer, torch_dtype = torch.bfloat16,
-                                    do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id,pad_token_id=tokenizer.eos_token_id)
+                                    do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id)
 
 model = HuggingFacePipeline(pipeline=pipeline)
 
@@ -51,6 +52,7 @@ def custom_tool(text):
             return True
     return False
 
+
 # Define the (single) node in the graph
 workflow.add_edge(START, "model")
 workflow.add_node("model", call_model)
@@ -75,8 +77,8 @@ def main_loop():
             return 
 
         if custom_tool(query):
-            print("custom tool time")           
-
+            print("running tag checker")
+            TG.main()
         else:
             input_messages = [HumanMessage(query)]
             output = app.invoke(
