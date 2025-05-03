@@ -13,7 +13,7 @@ memory = MemorySaver()
 tokenizer = transformers.AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
 hf_model =transformers.AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct",  torch_dtype="auto", device_map="auto")
 pipeline = transformers.pipeline( "text-generation", model = hf_model, tokenizer = tokenizer, torch_dtype = torch.bfloat16,
-                                    max_tokens=5000, do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id,pad_token_id=tokenizer.eos_token_id)
+                                    do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id,pad_token_id=tokenizer.eos_token_id)
 
 model = HuggingFacePipeline(pipeline=pipeline)
 
