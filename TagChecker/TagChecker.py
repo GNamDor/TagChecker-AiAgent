@@ -1,4 +1,4 @@
-from HelperFunctions import get_sentences, preprocess_sentence,regex_sort, remove_slash, add_slash, output_processing
+from .HelperFunctions import get_sentences, preprocess_sentence,regex_sort, remove_slash, add_slash, output_processing
 from collections import deque
 
 def main():
