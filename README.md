@@ -14,4 +14,11 @@ AIAgent.py
 
 5. When done, type "quit"
 
+# BlockDiagram
+
 ![Alt text](TagChecker/block_diagram.jpeg)
+
+# Notes
+1. This repo is using huggingface to replace requiring api of paid models.
+2. Interfacing hugging face model with langchain using huggingface pipelines.
+3. Langchain tools do not work with hugging face pipelines as they don't have bind_tools methods, so I implemented a simple condition to replace react_agents.
