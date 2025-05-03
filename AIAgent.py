@@ -13,7 +13,7 @@ memory = MemorySaver()
 tokenizer = transformers.AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
 hf_model =transformers.AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct",  torch_dtype="auto", device_map="auto")
 pipeline = transformers.pipeline( "text-generation", model = hf_model, tokenizer = tokenizer, torch_dtype = torch.bfloat16,
-                                    do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id,pad_token_id=tokenizer.eos_token_id)
+                                    max_tokens=5000, do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id,pad_token_id=tokenizer.eos_token_id)
 
 model = HuggingFacePipeline(pipeline=pipeline)
 
@@ -28,10 +28,8 @@ trimmer = trim_messages(
 
 prompt_template = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            "You are a helpful assistant. Answer all questions to the best of your ability",
-        ),
+        ("system",
+        "You are a helpful assistant. Answer all questions to the best of your ability",),
         MessagesPlaceholder(variable_name="messages"),
     ]
 )
@@ -65,18 +63,30 @@ messages = [
     HumanMessage(content="Hi"),
     AIMessage(content="Hi"),
 ]
-query = "test"
 
-if custom_tool(query):
-    # run tag checker            
-    pass
-else:
-    input_messages = [HumanMessage(query)]
-    output = app.invoke(
-        {"messages": input_messages},
-        config,
-    )
+def main_loop():
 
-    result = output["messages"][-1].text()
-        
-    
+    print("\nPlease Enter a prompt or type quit to exit\n")
+    while True:
+        query = input("Enter Prompt: ")
+
+        if query.lower() == "quit":
+            print("Exiting...")
+            return 
+
+        if custom_tool(query):
+            print("custom tool time")           
+
+        else:
+            input_messages = [HumanMessage(query)]
+            output = app.invoke(
+                {"messages": input_messages},
+                config,
+            )
+
+            result = output["messages"][-1].text()
+            print(result)
+
+
+if __name__ == "__main__":
+    main_loop()
