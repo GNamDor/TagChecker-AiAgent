@@ -92,6 +92,8 @@ def main_loop():
             object_methods = [method_name for method_name in dir(output)]
             print(output.values())
 
+            print("popped item", output.keys())
+
 
             result = output["messages"][-1].text()
             print(result)

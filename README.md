@@ -24,8 +24,12 @@ python3 AIAgent.py
 6. When done, type "quit"
 
 
-## Notes
+## Notes 1
 1. This repo is using huggingface to replace requiring api of paid models.
 2. Interfacing hugging face model with langchain using huggingface pipelines.
 3. Langchain tools do not work with hugging face pipelines as they don't have bind_tools methods, so I implemented a simple condition to replace react_agents.
+
+## Notes 2
+1. continuing on notes 1 - point 3, langchain huggingface pipeline does not return AIMessage and causes errors, requiring the AI to output the entire message history instead of finding a single AIMessage. Bug does [not look to be in plan for fixing](https://github.com/langchain-ai/langchain/issues/20926)
+
 
