@@ -10,15 +10,25 @@ from langchain_core.messages import SystemMessage, trim_messages
 import TagChecker.TagChecker as TG
 
 memory = MemorySaver()
-tokenizer = transformers.AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
-hf_model =transformers.AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct",  torch_dtype="auto", device_map="auto")
-pipeline = transformers.pipeline( "text-generation", model = hf_model, tokenizer = tokenizer, torch_dtype = torch.bfloat16,
-                                    do_sample=True,top_k=10,num_return_sequences=1,eos_token_id=tokenizer.eos_token_id)
+tokenizer = transformers.AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM2-1.7B-Instruct")
+hf_model =transformers.AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM2-1.7B-Instruct", torch_dtype="auto", device_map="auto")
+pipeline = transformers.pipeline(
+    "text-generation",
+    model=hf_model,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    device_map="auto",
+    do_sample=True,
+    top_k=10,
+    num_return_sequences=1,
+    eos_token_id=tokenizer.eos_token_id,
+    pad_token_id=tokenizer.eos_token_id,
+)
 
 model = HuggingFacePipeline(pipeline=pipeline)
 
 trimmer = trim_messages(
-    max_tokens=5000,
+    max_tokens=65,
     token_counter=model,
     include_system=True,
     allow_partial=False,
@@ -28,7 +38,7 @@ trimmer = trim_messages(
 prompt_template = ChatPromptTemplate.from_messages(
     [
         ("system",
-        "You are a helpful assistant. Answer all questions to the best of your ability",),
+        "converse back with what the user prompts and answer some questions",),
         MessagesPlaceholder(variable_name="messages"),
     ]
 )
@@ -57,15 +67,11 @@ workflow.add_node("model", call_model)
 app = workflow.compile(checkpointer=memory)
 config = {"configurable": {"thread_id": "abc222"}}
 
-messages = [
-    SystemMessage(content="you're a good assistant"),
-    HumanMessage(content="Hi"),
-    AIMessage(content="Hi"),
-]
-
 def main_loop():
 
     print("\nPlease Enter a prompt or type quit to exit")
+
+    previous = ""
     while True:
         query = input("\nEnter Prompt: ")
 
@@ -83,9 +89,14 @@ def main_loop():
                 config,
             )
 
+            object_methods = [method_name for method_name in dir(output)]
+            print(output.values())
+
+
             result = output["messages"][-1].text()
             print(result)
 
-
 if __name__ == "__main__":
     main_loop()
+
+    

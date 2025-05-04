@@ -1,4 +1,4 @@
-# TagChecker-AiAgent
+## TagChecker-AiAgent
 
 to use TagChecker-AiAgent
 1. Clone the repo
@@ -7,25 +7,24 @@ to use TagChecker-AiAgent
 pip install -r requirements.txt
 ```
 3. run
-windows
+for windows
 ```python
 py AIAgent.py
 ```
 
-linux
+for linux
 ```python
 python3 AIAgent.py
 ```
 
-4. converse with a 1.5B model that will run locally on your machine. to run tag checker, replace the Paragraph.txt file with your tag checking question sample and ask the AI to "run tag checker".
+4. converse with a 1.5B model that will run locally on your machine. 
 
-5. When done, type "quit"
+5. to run tag checker, replace the Paragraph.txt file with your tag checking question sample and ask the AI to "run tag checker".
 
-# BlockDiagram
+6. When done, type "quit"
 
-![Alt text](TagChecker/block_diagram.jpeg)
 
-# Notes
+## Notes
 1. This repo is using huggingface to replace requiring api of paid models.
 2. Interfacing hugging face model with langchain using huggingface pipelines.
 3. Langchain tools do not work with hugging face pipelines as they don't have bind_tools methods, so I implemented a simple condition to replace react_agents.
