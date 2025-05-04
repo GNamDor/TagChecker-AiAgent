@@ -62,4 +62,4 @@ def regex_sort(words, op_stack):
         return f'"Expected {add_slash(op_stack.pop())} found #",'
     
     # if all conditions pass, then sentence is correctly tagged
-    return 'Correctly tagged paragraph",'
+    return '"Correctly tagged paragraph",'
