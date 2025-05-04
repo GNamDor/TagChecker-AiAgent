@@ -7,7 +7,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, MessagesState, StateGraph
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage, trim_messages
-import TagChecker.TagChecker as TG
+import TagChecker as TG
 
 memory = MemorySaver()
 tokenizer = transformers.AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM2-1.7B-Instruct")
